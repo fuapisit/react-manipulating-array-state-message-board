@@ -1,23 +1,59 @@
+import { useState } from "react";
+
 function MessageBoard() {
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState("");
+
+  const handleMessageInputChange = (event) => {
+    setMessageInput(event.target.value);
+  };
+
+  const handleAddMessage = (event) => {
+    event.preventDefault();
+    const newMessage = [...messages, messageInput];
+    setMessages(newMessage);
+    setMessageInput("")
+  };
+
+  function handleDeleteMessage (messageIndex) {
+    const newMessage = messages.filter((_, index) => index !== messageIndex);
+    setMessages(newMessage);
+  }
+
   return (
     <div className="app-wrapper">
       <h1 class="app-title">Message board</h1>
-      <div class="message-input-container">
+      <form class="message-input-container" onSubmit={handleAddMessage}>
         <label>
           <input
             id="message-text"
             name="message-text"
             type="text"
             placeholder="Enter message here"
+            onChange={handleMessageInputChange}
+            value={messageInput}
           />
         </label>
-        <button className="submit-message-button">Submit</button>
-      </div>
+        <button className="submit-message-button" 
+          onClick={handleAddMessage}
+        >
+          Submit
+        </button>
+      </form>
       <div class="board">
-        <div className="message">
-          <h1>Hello all ! This is first message.</h1>
-          <button className="delete-button">x</button>
-        </div>
+      {messages.map((item, index) => {
+            return (
+              <div className="message" key={index}>
+                 <h1>{item}{""}</h1>
+                  <button className="delete-button" 
+                    onClick={() => handleDeleteMessage(index)}
+                  >
+                    x
+                  </button>
+              </div>
+            )
+          })}
+        
       </div>
     </div>
   );
