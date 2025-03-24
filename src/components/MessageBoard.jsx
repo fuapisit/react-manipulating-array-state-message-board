@@ -34,9 +34,7 @@ function MessageBoard() {
             value={messageInput}
           />
         </label>
-        <button className="submit-message-button" 
-          onClick={handleAddMessage}
-        >
+        <button className="submit-message-button">
           Submit
         </button>
       </form>
